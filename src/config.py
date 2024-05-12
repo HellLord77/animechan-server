@@ -9,4 +9,5 @@ DATA_PATH: Final[str] = os.getenv("DATA_PATH", "data.json")
 DATABASE_URL: Final[str] = os.getenv("DATABASE_URL", "sqlite:///./database.db")
 
 CORS_ALLOW_ORIGIN: Final[str] = os.getenv("CORS_ALLOW_ORIGIN", "*")
+INCLUDE_QUOTE_ID: Final[bool] = os.getenv("INCLUDE_QUOTE_ID", "false").lower() == "true"
 QUOTES_PER_PAGE: Final[int] = int(os.getenv("PAGE_SIZE", 10))

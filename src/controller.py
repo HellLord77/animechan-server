@@ -24,15 +24,13 @@ def _get_db() -> Iterator[SessionLocal]:
 
 
 def _get_quote_query() -> Iterator[Query]:
-    yield (
-        next(_get_db())
-        .query(
-            Quote.content.label("quote"),
-            Anime.name.label("anime"),
-            Character.name.label("character"),
-        )
-        .join(Anime, Quote.anime_id == Anime.id)
-        .join(Character, Quote.character_id == Character.id)
+    yield next(_get_db()).query(
+        *(Quote.id.label("id"),) if config.INCLUDE_QUOTE_ID else (),
+        Quote.content.label("quote"),
+        Anime.name.label("anime"),
+        Character.name.label("character"),
+    ).join(Anime, Quote.anime_id == Anime.id).join(
+        Character, Quote.character_id == Character.id
     )
 
 
