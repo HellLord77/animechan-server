@@ -52,7 +52,9 @@ def get_random_quote(query: Query = Depends(_get_quote_query)):
 
 
 def get_random_quotes(query: Query = Depends(_get_quote_query)):
-    return query.order_by(func.random()).limit(config.QUOTES_PER_PAGE).all()
+    return _check_empty_quote(
+        query.order_by(func.random()).limit(config.QUOTES_PER_PAGE).all()
+    )
 
 
 def get_random_quote_by_anime(title: str, query: Query = Depends(_get_quote_query)):
