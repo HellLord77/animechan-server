@@ -1,20 +1,27 @@
-FROM python:alpine AS install
+FROM python:alpine AS stage
 
 WORKDIR /server
+
+FROM stage AS install
+
 COPY requirements.txt .
-RUN pip install --no-cache-dir --requirement=requirements.txt
+RUN pip install --no-cache-dir --user --requirement=requirements.txt
+
+FROM stage AS prod
+
+COPY --from=install /root/.local /root/.local
 COPY src/*.py .
 COPY src/routes/*.py routes/
 
-FROM install AS database
+FROM prod AS database
 
 COPY data.json .
 RUN python init.py
 
-FROM install AS prod
+FROM prod
 
 COPY --from=database /server/database.db .
 
 EXPOSE 8000
-ENTRYPOINT ["uvicorn", "main:app"]
+ENTRYPOINT ["/root/.local/bin/uvicorn", "main:app"]
 CMD ["--host=0.0.0.0"]
