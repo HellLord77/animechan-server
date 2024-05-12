@@ -3,32 +3,37 @@ from contextlib import asynccontextmanager
 import fastapi
 import uvicorn
 from fastapi import FastAPI
-from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 import config
 import description
-from common import JSONResponse
-from common import logger
-from init import load_database
-from routes import available
-from routes import quotes
-from routes import random
+import exceptions
+import init
+import responses
+from routers import available
+from routers import quotes
+from routers import random
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    load_database()
+    init.load_database()
     yield
 
 
 app = FastAPI(
     debug=config.DEBUG_FASTAPI,
-    title="Animechan",
+    title=description.TITLE,
     description=description.APP,
+    exception_handlers={
+        RequestValidationError: exceptions.validation_error_handler,
+        fastapi.status.HTTP_404_NOT_FOUND: exceptions.not_found_error_handler,
+        Exception: exceptions.exception_handler,
+    },
     lifespan=lifespan,
+    responses=responses.BASE,
 )
 # noinspection PyTypeChecker
 app.add_middleware(
@@ -49,25 +54,6 @@ async def get_status():
 app.include_router(random.router, prefix="/random")
 app.include_router(quotes.router, prefix="/quotes")
 app.include_router(available.router, prefix="/available")
-
-
-@app.exception_handler(Exception)
-async def exception_handler(_: Request, exc: Exception) -> JSONResponse:
-    logger.error("Database Error: %s", exc, exc_info=exc)
-    return JSONResponse(
-        {"error": description.ERROR_500},
-        fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR,
-    )
-
-
-@app.exception_handler(RequestValidationError)
-async def request_validation_error_handler(
-    _: Request, __: RequestValidationError
-) -> JSONResponse:
-    return JSONResponse(
-        {"error": description.ERROR_400},
-        fastapi.status.HTTP_400_BAD_REQUEST,
-    )
 
 
 def main():

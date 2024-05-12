@@ -11,7 +11,8 @@ FROM stage AS prod
 
 COPY --from=install /root/.local /root/.local
 COPY src/*.py .
-COPY src/routes/*.py routes/
+COPY src/controller/*.py controller/
+COPY src/routers/*.py routers/
 
 FROM prod AS database
 

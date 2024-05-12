@@ -1,5 +1,6 @@
 import config
 
+TITLE = "Animechan"
 APP = "A free restful API serving quality anime quotes"
 
 ROUTE_RANDOM = "Get a random quote"
@@ -12,5 +13,4 @@ ROUTE_QUOTES_CHARACTER = f"Get {config.QUOTES_PER_PAGE} quotes by anime characte
 
 ERROR_400 = "Bad Request"
 ERROR_404 = "No related quotes found!"
-ERROR_404_PAGE = "No quotes found!"
 ERROR_500 = "Internal Server Error"
