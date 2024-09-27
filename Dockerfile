@@ -21,7 +21,7 @@ RUN python init.py
 
 FROM prod
 
-COPY --from=database /server/database.db .
+COPY --from=database /server/database.sqlite .
 
 EXPOSE 8000
 ENTRYPOINT ["/root/.local/bin/uvicorn", "main:app"]
