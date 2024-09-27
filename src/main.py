@@ -4,7 +4,6 @@ import fastapi
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 import config
@@ -34,13 +33,6 @@ app = FastAPI(
     },
     lifespan=lifespan,
     responses=responses.BASE,
-)
-# noinspection PyTypeChecker
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=(config.CORS_ALLOW_ORIGIN,),
-    allow_methods=("*",),
-    allow_headers=("*",),
 )
 # noinspection PyTypeChecker
 app.add_middleware(GZipMiddleware)
