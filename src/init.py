@@ -53,10 +53,15 @@ def dump_database(data_path: str = config.DATA_PATH):
         _dump_quote(db, quote)
 
     db.commit()
+    close_database()
 
 
 def load_database():
     Base.metadata.create_all(engine)
+
+
+def close_database():
+    engine.dispose()
 
 
 def main():

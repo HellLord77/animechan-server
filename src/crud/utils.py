@@ -12,9 +12,7 @@ T = TypeVar("T", bound=Quote | list[Quote])
 RANDOM = func.random()
 
 
-def check_empty_quote(
-    quote: Optional[T],
-) -> T:
+def check_empty_quote(quote: Optional[T]) -> T:
     if not quote:
         raise HTTPException(fastapi.status.HTTP_404_NOT_FOUND)
     return quote

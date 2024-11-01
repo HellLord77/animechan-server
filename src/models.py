@@ -11,14 +11,14 @@ from database import Base
 class Anime(Base):
     __tablename__ = "anime"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column(String(500), nullable=False, unique=True)
 
 
 class Character(Base):
     __tablename__ = "character"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column(String(500), nullable=False, unique=True)
     anime_id = Column(Integer, ForeignKey("anime.id"), nullable=False)
 
@@ -28,7 +28,7 @@ class Character(Base):
 class Quote(Base):
     __tablename__ = "quote"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     content = Column(Text, nullable=False)
     anime_id = Column(Integer, ForeignKey("anime.id"), nullable=False)
     character_id = Column(Integer, ForeignKey("character.id"), nullable=False)

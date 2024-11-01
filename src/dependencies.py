@@ -15,7 +15,7 @@ _ENTITIES = [
     Character.name.label("character"),
 ]
 if config.INCLUDE_QUOTE_ID:
-    _ENTITIES.insert(0, Quote.id.label("id"))
+    _ENTITIES.insert(0, Quote.id)
 
 
 def get_db() -> Iterator[SessionLocal]:

@@ -20,6 +20,7 @@ from routers import random
 async def lifespan(_: FastAPI):
     init.load_database()
     yield
+    init.close_database()
 
 
 app = FastAPI(

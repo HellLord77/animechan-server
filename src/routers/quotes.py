@@ -2,9 +2,9 @@ from fastapi import APIRouter
 
 import description
 import responses
-from controller import get_quotes_by_anime
-from controller import get_quotes_by_character
-from controller import get_random_quotes
+from crud import get_quotes_by_anime
+from crud import get_quotes_by_character
+from crud import get_random_quotes
 from schemas import Quote
 
 router = APIRouter(tags=["quotes"])

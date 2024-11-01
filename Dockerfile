@@ -10,9 +10,7 @@ RUN pip install --no-cache-dir --user --requirement=requirements.txt
 FROM stage AS prod
 
 COPY --from=install /root/.local /root/.local
-COPY src/*.py .
-COPY src/controller/*.py controller/
-COPY src/routers/*.py routers/
+COPY src .
 
 FROM prod AS database
 

@@ -2,9 +2,9 @@ from fastapi import APIRouter
 
 import description
 import responses
-from controller import get_random_quote
-from controller import get_random_quote_by_anime
-from controller import get_random_quote_by_character
+from crud import get_random_quote
+from crud import get_random_quote_by_anime
+from crud import get_random_quote_by_character
 from schemas import Quote
 
 router = APIRouter(tags=["random"])
